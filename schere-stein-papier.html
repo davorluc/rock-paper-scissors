@@ -16,8 +16,9 @@
     <section id="login" class ="sec">
       <p>Starten Sie ein neues Spiel</p>
       <form>
-          <input id="user-input" type="text" placeholder="Username" required>
-          <button id="submit-button" type="submit">Enter</button>
+        <label for="user-input">Username</label>
+        <input id="user-input" type="text" required>
+        <button id="buttonEnter" type="submit">Enter</button>
       </form>
     </section>
     <section id="game" class="sec">
@@ -26,6 +27,13 @@
         <button id="scissors">Scissors</button>
         <button id="fountain">Fountain</button>
         <button id="matchstick">Matchstick</button>
+        <table id="currentgame">
+          <tr>
+            <th>Result</th>
+            <th>User</th>
+            <th>Computer</th>
+          </tr>
+        </table>
     </section>
 </body>
 </html>
