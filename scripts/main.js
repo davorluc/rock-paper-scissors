@@ -42,6 +42,8 @@ const paper = document.getElementById("paper");
 const scissors = document.getElementById("scissors");
 const fountain = document.getElementById("fountain");
 const matchstick = document.getElementById("matchstick");
+const loginButton = document.getElementById("buttonEnter");
+let table = document.getElementById("currentgame");
 
 function generateComputerPick() {
     const picks = ["rock", "paper", "scissors", "fountain", "matchstick"];
@@ -49,8 +51,20 @@ function generateComputerPick() {
     return picks[randomPick];
 }
 
+function addToTable(result, userInput, computerInput) {
+    let template = `
+                <tr>
+                    <td>${result}</td>
+                    <td>${userInput}</td>
+                    <td>${computerInput}</td>
+                </tr>
+    `
+    table.innerHTML += template;
+}
+
 function duel(userPick) {
     const computerPick = generateComputerPick();
+    let result = "";
     switch(userPick + computerPick) {
         case "rockscissors":
         case "rockmatchstick":
@@ -62,7 +76,7 @@ function duel(userPick) {
         case "fountainscissors":
         case "matchstickpaper":
         case "matchstickfountain":
-            console.log("you won");
+            result = "you won";
             break;
         case "rockpaper":
         case "rockfountain":
@@ -74,17 +88,21 @@ function duel(userPick) {
         case "fountainmatchstick":
         case "matchstickrock":
         case "matchstickscissors":
-            console.log("you lost");
+            result = "you lost";
             break;
         case "rockrock":
         case "paperpaper":
         case "scissorsscissors":
         case "fountainfountain":
         case "matchstickmatchstick":
-            console.log("draw");
+            result ="draw";
             break;
     }
+    addToTable(result, userPick, computerPick);
+    console.log(result);
+    return result; 
 }
+
 
 function main() {
     rock.addEventListener('click', function () {
