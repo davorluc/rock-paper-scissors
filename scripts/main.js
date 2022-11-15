@@ -44,6 +44,16 @@ const fountain = document.getElementById("fountain");
 const matchstick = document.getElementById("matchstick");
 const loginButton = document.getElementById("buttonEnter");
 let table = document.getElementById("currentgame");
+const isLoggedIn = false;
+
+function generateDrawText() {
+    let name = document.querySelector("#user-input");
+    let prompt = document.querySelector("#pick-your-hand");
+    const template = `
+       ${name}, pick your hand!
+        `;
+    prompt.innerHTML += "test";
+}
 
 function generateComputerPick() {
     const picks = ["rock", "paper", "scissors", "fountain", "matchstick"];
@@ -99,12 +109,15 @@ function duel(userPick) {
             break;
     }
     addToTable(result, userPick, computerPick);
-    console.log(result);
     return result; 
 }
 
 
 function main() {
+    loginButton.addEventListener('click', function () {
+        generateDrawText();
+    })
+
     rock.addEventListener('click', function () {
         duel("rock");
     })
