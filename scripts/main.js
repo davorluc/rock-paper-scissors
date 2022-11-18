@@ -1,4 +1,4 @@
-import {HANDS, isConnected, getRankings, evaluateHand} from './game-service.js';
+import {HANDS, isConnected, getRankings, evaluateHand, addToTable} from './game-service.js';
 // TODO: Create DOM references
 // TODO: How to keep track of App state?
 
@@ -43,98 +43,105 @@ const scissors = document.getElementById("scissors");
 const fountain = document.getElementById("fountain");
 const matchstick = document.getElementById("matchstick");
 const loginButton = document.getElementById("buttonEnter");
-let table = document.getElementById("currentgame");
-const isLoggedIn = false;
+let name = document.getElementById("user-input");
+export let table = document.getElementById("currentgame");
+let prompt = document.getElementById("pick-your-hand");
+let isLoggedIn = false;
 
 function generateDrawText() {
-    let name = document.querySelector("#user-input");
-    let prompt = document.querySelector("#pick-your-hand");
+    const inputName = name.value;
     const template = `
-       ${name}, pick your hand!
+       ${inputName}, pick your hand!
         `;
-    prompt.innerHTML += "test";
+    prompt.innerHTML += template;
 }
 
-function generateComputerPick() {
-    const picks = ["rock", "paper", "scissors", "fountain", "matchstick"];
-    const randomPick = Math.floor(Math.random() * 5);
-    return picks[randomPick];
-}
+function login() {
+    const username = name.value;
 
-function addToTable(result, userInput, computerInput) {
-    let template = `
-                <tr>
-                    <td>${result}</td>
-                    <td>${userInput}</td>
-                    <td>${computerInput}</td>
-                </tr>
-    `
-    table.innerHTML += template;
-}
-
-function duel(userPick) {
-    const computerPick = generateComputerPick();
-    let result = "";
-    switch(userPick + computerPick) {
-        case "rockscissors":
-        case "rockmatchstick":
-        case "paperrock":
-        case "paperfountain":
-        case "scissorspaper":
-        case "scissorsmatchstick":
-        case "fountainrock":
-        case "fountainscissors":
-        case "matchstickpaper":
-        case "matchstickfountain":
-            result = "you won";
-            break;
-        case "rockpaper":
-        case "rockfountain":
-        case "paperscissors":
-        case "papermatchstick":
-        case "scissorsrock":
-        case "scissorsfountain":
-        case "fountainpaper":
-        case "fountainmatchstick":
-        case "matchstickrock":
-        case "matchstickscissors":
-            result = "you lost";
-            break;
-        case "rockrock":
-        case "paperpaper":
-        case "scissorsscissors":
-        case "fountainfountain":
-        case "matchstickmatchstick":
-            result ="draw";
-            break;
+    if (username) {
+        document.querySelector("#game").classList.toggle("hidden");
+        document.querySelector("#scoreboard").classList.toggle("hidden");
+        document.querySelector("#login").classList.toggle("hidden");
     }
-    addToTable(result, userPick, computerPick);
-    return result; 
 }
-
 
 function main() {
-    loginButton.addEventListener('click', function () {
+    loginButton.addEventListener('click', function() {
         generateDrawText();
+        isLoggedIn = true;
+
+        login();
     })
 
     rock.addEventListener('click', function () {
-        duel("rock");
+        evaluateHand("placeholder", "rock", (evaluation) => {
+            let result = "";
+            if (evaluation.gameEval === 1) {
+                result = "you won";
+            } else if (evaluation.gameEval === -1) {
+                result = "you lost";
+            } else {
+                result = "draw";
+            }
+        addToTable(result, evaluation.playerHand, evaluation.systemHand);
+        })
     })
 
     paper.addEventListener('click', function () {
-        duel("paper");
+        evaluateHand("placeholder", "paper", (evaluation) => {
+            let result = "";
+            if (evaluation.gameEval === 1) {
+                result = "you won";
+            } else if (evaluation.gameEval === -1) {
+                result = "you lost";
+            } else {
+                result = "draw";
+            }
+        addToTable(result, evaluation.playerHand, evaluation.systemHand);
+        })
     })
 
     scissors.addEventListener('click', function () {
-        duel("scissors");
+        evaluateHand("placeholder", "scissors", (evaluation) => {
+            let result = "";
+            if (evaluation.gameEval === 1) {
+                result = "you won";
+            } else if (evaluation.gameEval === -1) {
+                result = "you lost";
+            } else {
+                result = "draw";
+            }
+        addToTable(result, evaluation.playerHand, evaluation.systemHand);
+        })
     })
 
     fountain.addEventListener('click', function () {
-        duel("fountain");
+        evaluateHand("placeholder", "fountain", (evaluation) => {
+            let result = "";
+            if (evaluation.gameEval === 1) {
+                result = "you won";
+            } else if (evaluation.gameEval === -1) {
+                result = "you lost";
+            } else {
+                result = "draw";
+            }
+        addToTable(result, evaluation.playerHand, evaluation.systemHand);
+        })
     })
+
     matchstick.addEventListener('click', function () {
-        duel("matchstick");
+        evaluateHand("placeholder", "matchstick", (evaluation) => {
+            let result = "";
+            if (evaluation.gameEval === 1) {
+                result = "you won";
+            } else if (evaluation.gameEval === -1) {
+                result = "you lost";
+            } else {
+                result = "draw";
+            }
+        addToTable(result, evaluation.playerHand, evaluation.systemHand);
+        })
     })
 }
 main();
