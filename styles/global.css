@@ -137,3 +137,15 @@ form {
 h2 {
   margin-bottom: 10px;
 }
+
+#user-input {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid #850e35;
+  padding: 4px;
+  margin-right: 10px;
+}
+
+input::placeholder {
+  text-align: center;
+}
