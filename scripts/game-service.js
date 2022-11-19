@@ -32,7 +32,7 @@ function getRankingsFromPlayerStats() {
         const wins = user.win;
         const name = user.user;
         const rank = index + 1;
-        rankings.push({ rank, wins, name });
+        rankings.push({rank, wins, name });
     }
     return ranks;
 }

@@ -42,6 +42,7 @@ const paper = document.getElementById("paper");
 const scissors = document.getElementById("scissors");
 const fountain = document.getElementById("fountain");
 const matchstick = document.getElementById("matchstick");
+const logoutButton = document.getElementById("back");
 const loginButton = document.getElementById("buttonEnter");
 let name = document.getElementById("user-input");
 export let table = document.getElementById("currentgame");
@@ -66,12 +67,22 @@ function login() {
     }
 }
 
+function logout() {
+        document.querySelector("#game").classList.toggle("hidden");
+        document.querySelector("#scoreboard").classList.toggle("hidden");
+        document.querySelector("#login").classList.toggle("hidden");
+}
+
 function main() {
     loginButton.addEventListener('click', function() {
         generateDrawText();
         isLoggedIn = true;
 
         login();
+    })
+
+    logoutButton.addEventListener('click', function() {
+        logout();
     })
 
     rock.addEventListener('click', function () {
