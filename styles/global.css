@@ -58,6 +58,15 @@ h1 {
   text-align: center;
 }
 
+#login button  {
+  background-color: #ee6983;
+  border: 1px solid black;
+  cursor: pointer;
+  padding: 4px;
+  color: #850e35;
+  font-weight: bold;
+}
+
 body > header {
     text-align: center;
     background-color: #ee6983;
