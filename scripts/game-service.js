@@ -37,7 +37,7 @@ function getRankingsFromPlayerStats() {
     return ranks;
 }
 
-export const HANDS = ["rock", "paper", "scissors", "fountain", "matchstick"];
+export const HANDS = ['rock', 'paper', 'scissors', 'fountain', 'matchstick'];
 
 let isConnectedState = false;
 
@@ -54,34 +54,23 @@ export function getRankings(rankingsCallbackHandlerFn) {
   setTimeout(() => rankingsCallbackHandlerFn(rankingsArray), DELAY_MS);
 }
 
-const evalLookup = {
-  scissors: {
-    scissors: 0,
-    stone: 1,
-    paper: -1,
-  },
-};
-
 function getGameEval(playerHand, systemHand) {
   return evalLookup[playerHand][systemHand];
 }
-
-console.log('eval scissors-scissors: ', getGameEval('scissors', 'scissors'));
 
 function generateComputerPick() {
     const randomPick = Math.floor(Math.random() * 5);
     return HANDS[randomPick];
 }
 
-
 export function addToTable(result, userInput, computerInput) {
-    let template = `
+    const template = `
                 <tr>
                     <td>${result}</td>
                     <td>${userInput}</td>
                     <td>${computerInput}</td>
                 </tr>
-    `
+    `;
     table.innerHTML += template;
 }
 
@@ -91,35 +80,35 @@ export function evaluateHand(playerName, playerHand, gameRecordHandlerCallbackFn
     const systemHand = generateComputerPick();
     let gameEval = 0;
     switch(playerHand + systemHand) {
-        case "rockscissors":
-        case "rockmatchstick":
-        case "paperrock":
-        case "paperfountain":
-        case "scissorspaper":
-        case "scissorsmatchstick":
-        case "fountainrock":
-        case "fountainscissors":
-        case "matchstickpaper":
-        case "matchstickfountain":
+        case 'rockscissors':
+        case 'rockmatchstick':
+        case 'paperrock':
+        case 'paperfountain':
+        case 'scissorspaper':
+        case 'scissorsmatchstick':
+        case 'fountainrock':
+        case 'fountainscissors':
+        case 'matchstickpaper':
+        case 'matchstickfountain':
             gameEval = 1;
             break;
-        case "rockpaper":
-        case "rockfountain":
-        case "paperscissors":
-        case "papermatchstick":
-        case "scissorsrock":
-        case "scissorsfountain":
-        case "fountainpaper":
-        case "fountainmatchstick":
-        case "matchstickrock":
-        case "matchstickscissors":
+        case 'rockpaper':
+        case 'rockfountain':
+        case 'paperscissors':
+        case 'papermatchstick':
+        case 'scissorsrock':
+        case 'scissorsfountain':
+        case 'fountainpaper':
+        case 'fountainmatchstick':
+        case 'matchstickrock':
+        case 'matchstickscissors':
             gameEval = -1;
             break;
-        case "rockrock":
-        case "paperpaper":
-        case "scissorsscissors":
-        case "fountainfountain":
-        case "matchstickmatchstick":
+        case 'rockrock':
+        case 'paperpaper':
+        case 'scissorsscissors':
+        case 'fountainfountain':
+        case 'matchstickmatchstick':
             gameEval = 0;
             break;
     }
