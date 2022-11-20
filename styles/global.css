@@ -50,21 +50,21 @@ h1 {
     outline: 0;
 }
 
-#game{
+#game {
     text-align: center;
 }
 
 #login {
-  text-align: center;
+    text-align: center;
 }
 
-#login button  {
-  background-color: #ee6983;
-  border: 1px solid black;
-  cursor: pointer;
-  padding: 4px;
-  color: #850e35;
-  font-weight: bold;
+#login button {
+    background-color: #ee6983;
+    border: 1px solid black;
+    cursor: pointer;
+    padding: 7px;
+    color: #850e35;
+    font-weight: bold;
 }
 
 body > header {
@@ -73,7 +73,7 @@ body > header {
     padding: 20px;
 }
 
-section{
+section {
     padding: 20px 20px;
 }
 
@@ -82,19 +82,19 @@ body {
 }
 
 form {
-  padding-top: 15px;
+    padding-top: 15px;
 }
 
 #currentgame {
-  margin-top: 150px;
-  margin-left: auto;
-  margin-right: auto;
+    margin-top: 150px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-#currentgame th, td{
-  border: 1px solid black;
-  padding: 10px;
-  border-sizing: border-box;
+#currentgame th, td {
+    border: 1px solid black;
+    padding: 10px;
+    border-sizing: border-box;
 }
 
 #currentgame th {
@@ -103,24 +103,24 @@ form {
 }
 
 #currentgame td {
-  background-color: white;
+    background-color: white;
 }
 
 #scoreboard {
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
 }
 
 #scoreboard table {
-  margin-left: auto;
-  margin-right: auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-#scoreboard th, td{
-  border: 1px solid black;
-  padding: 10px;
-  border-sizing: border-box;
+#scoreboard th, td {
+    border: 1px solid black;
+    padding: 10px;
+    border-sizing: border-box;
 }
 
 #scoreboard th {
@@ -129,32 +129,32 @@ form {
 }
 
 #scoreboard td {
-  background-color: white;
+    background-color: white;
 }
 
 .hidden {
-  display: none;
+    display: none;
 }
 
 #pick-your-hand {
-  font-weight: bold;
-  font-size: 25px;
-  margin-top: 20px;
-  margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 25px;
+    margin-top: 20px;
+    margin-bottom: 10px;
 }
 
 h2 {
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 #user-input {
-  background-color: transparent;
-  border: none;
-  border-bottom: 1px solid #850e35;
-  padding: 4px;
-  margin-right: 10px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #850e35;
+    padding: 4px;
+    margin-right: 10px;
 }
 
 input::placeholder {
-  text-align: center;
+    text-align: center;
 }
