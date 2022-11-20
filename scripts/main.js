@@ -15,10 +15,26 @@ const fountain = document.getElementById('fountain');
 const matchstick = document.getElementById('matchstick');
 const logoutButton = document.getElementById('back');
 const loginButton = document.getElementById('buttonEnter');
-let name = document.getElementById('user-input');
+const name = document.getElementById('user-input');
 export const table = document.getElementById('currentgame');
 const prompt = document.getElementById('pick-your-hand');
+const ranklist = document.getElementById('scoreboard-body');
 let isLoggedIn = false;
+
+function createRanking(rankingEntry) {
+    const template = `
+        <tr>
+            <td>${rankingEntry.rank}</td>
+            <td>${rankingEntry.name}</td>
+            <td>${rankingEntry.wins}</td>
+        </tr>
+    `;
+    return template;
+}
+
+getRankings((rankings) => rankings.forEach((rankingEntry) => {
+    ranklist.innerHTML += (createRanking(rankingEntry));
+}));
 
 function generateDrawText() {
     const inputName = name.value;
@@ -30,7 +46,7 @@ function generateDrawText() {
 
 function login() {
     const username = name.value;
-
+    isLoggedIn = true;
     if (username) {
         document.querySelector('#game').classList.toggle('hidden');
         document.querySelector('#scoreboard').classList.toggle('hidden');
@@ -39,24 +55,25 @@ function login() {
 }
 
 function logout() {
+        isLoggedIn = false;
         document.querySelector('#game').classList.toggle('hidden');
         document.querySelector('#scoreboard').classList.toggle('hidden');
         document.querySelector('#login').classList.toggle('hidden');
 }
 
 function main() {
-    loginButton.addEventListener('click', function() {
+    loginButton.addEventListener('click', () => {
         generateDrawText();
         isLoggedIn = true;
 
         login();
     });
 
-    logoutButton.addEventListener('click', function() {
+    logoutButton.addEventListener('click', () => {
         logout();
     });
 
-    rock.addEventListener('click', function () {
+    rock.addEventListener('click', () => {
         evaluateHand('placeholder', 'rock', (evaluation) => {
             let result = '';
             if (evaluation.gameEval === 1) {
@@ -70,7 +87,7 @@ function main() {
         });
     });
 
-    paper.addEventListener('click', function () {
+    paper.addEventListener('click', () => {
         evaluateHand('placeholder', 'paper', (evaluation) => {
             let result = '';
             if (evaluation.gameEval === 1) {
@@ -84,7 +101,7 @@ function main() {
         });
     });
 
-    scissors.addEventListener('click', function () {
+    scissors.addEventListener('click', () => {
         evaluateHand('placeholder', 'scissors', (evaluation) => {
             let result = '';
             if (evaluation.gameEval === 1) {
@@ -98,7 +115,7 @@ function main() {
         });
     });
 
-    fountain.addEventListener('click', function () {
+    fountain.addEventListener('click', () => {
         evaluateHand('placeholder', 'fountain', (evaluation) => {
             let result = '';
             if (evaluation.gameEval === 1) {
@@ -112,7 +129,7 @@ function main() {
         });
     });
 
-    matchstick.addEventListener('click', function () {
+    matchstick.addEventListener('click', () => {
         evaluateHand('placeholder', 'matchstick', (evaluation) => {
             let result = '';
             if (evaluation.gameEval === 1) {

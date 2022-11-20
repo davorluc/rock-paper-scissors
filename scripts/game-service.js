@@ -25,14 +25,14 @@ const playerStats = {
 
 // TODO: Update this function to do the right thing
 function getRankingsFromPlayerStats() {
-    const playersSorted = Objects.values(playerStats).sort((x, y) => y.win - x.win);
+    const playersSorted = Object.values(playerStats).sort((x, y) => y.win - x.win);
     const ranks = [];
     for (let i = 0; i < playersSorted.length; i++) {
         const user = playersSorted[i];
         const wins = user.win;
         const name = user.user;
-        const rank = index + 1;
-        rankings.push({rank, wins, name });
+        const rank = i + 1;
+        ranks.push({rank, wins, name });
     }
     return ranks;
 }
@@ -79,7 +79,7 @@ export function evaluateHand(playerName, playerHand, gameRecordHandlerCallbackFn
   // optional: in local-mode (isConnected == false) store rankings in the browser localStorage https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API
     const systemHand = generateComputerPick();
     let gameEval = 0;
-    switch(playerHand + systemHand) {
+    switch (playerHand + systemHand) {
         case 'rockscissors':
         case 'rockmatchstick':
         case 'paperrock':
