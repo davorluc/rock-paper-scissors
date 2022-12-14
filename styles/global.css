@@ -8,7 +8,17 @@ h1 {
     font-family: "Trebuchet MS";
 }
 
-#game > button {
+#enter-button {
+    background-color: #ee6983;
+    border: 1px solid black;
+    cursor: pointer;
+    padding: 7px;
+    color: #850e35;
+    font-weight: bold;
+}
+
+.hand,
+#back{
     background-color: #ee6983;
     border: 2px solid #111;
     border-radius: 8px;
@@ -27,7 +37,7 @@ h1 {
     margin: 0 3px;
 }
 
-#game > button::after {
+button::after {
     background-color: #111;
     border-radius: 8px;
     content: "";
@@ -42,29 +52,17 @@ h1 {
     z-index: -1;
 }
 
-#game > button:hover:after {
+button:hover:after {
     transform: translate(0, 0);
 }
 
-#game > button:hover {
+button:hover {
     outline: 0;
 }
 
-#game {
-    text-align: center;
-}
-
+#game,
 #login {
     text-align: center;
-}
-
-#login button {
-    background-color: #ee6983;
-    border: 1px solid black;
-    cursor: pointer;
-    padding: 7px;
-    color: #850e35;
-    font-weight: bold;
 }
 
 body > header {
@@ -157,4 +155,8 @@ h2 {
 
 input::placeholder {
     text-align: center;
+}
+
+table {
+  width: 55%;
 }
