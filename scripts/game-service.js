@@ -2,7 +2,6 @@
  * You are allowed to change the code here.
  * However, you are not allowed to change the signature of the exported functions and objects.
  */
-import {table} from './main.js';
 
 export const DELAY_MS = 1000;
 const playerStats = {
@@ -24,20 +23,31 @@ const playerStats = {
 };
 
 // TODO: Update this function to do the right thing
-function getRankingsFromPlayerStats() {
-    const playersSorted = Object.values(playerStats).sort((x, y) => y.win - x.win);
-    const ranks = [];
-    for (let i = 0; i < playersSorted.length; i++) {
-        const user = playersSorted[i];
-        const wins = user.win;
-        const name = user.user;
-        const rank = i + 1;
-        ranks.push({rank, wins, name });
-    }
-    return ranks;
+
+function returnPlayerStatsAsArray() {
+    return Object.entries(playerStats);
 }
 
-export const HANDS = ['rock', 'paper', 'scissors', 'fountain', 'matchstick'];
+function sortRankings(players) {
+    let rank = 0;
+    let userWins = -1;
+    players.forEach((player) => {
+        if (player[1].win !== userWins) {
+            rank++;
+            userWins = player[1].win;
+        }
+        player.rank = rank;
+    });
+}
+
+function getRankingsFromPlayerStats() {
+    const unsortedPlayerStats = returnPlayerStatsAsArray();
+    const sortedPlayerStats = unsortedPlayerStats.sort((a, b) => b[1].win - a[1].win);
+    sortRankings(unsortedPlayerStats);
+    return sortedPlayerStats.slice(0, 10);
+}
+
+export const HANDS = ['Rock', 'Paper', 'Scissors', 'Fountain', 'Matchstick'];
 
 let isConnectedState = false;
 
@@ -54,6 +64,48 @@ export function getRankings(rankingsCallbackHandlerFn) {
   setTimeout(() => rankingsCallbackHandlerFn(rankingsArray), DELAY_MS);
 }
 
+const evalLookup = {
+    Scissors: {
+        Scissors: 0,
+        Rock: -1,
+        Paper: 1,
+        Fountain: -1,
+        Matchstick: 1,
+    },
+
+    Paper: {
+        Scissors: -1,
+        Rock: 1,
+        Paper: 0,
+        Fountain: 1,
+        Matchstick: -1,
+    },
+
+    Rock: {
+        Rock: 0,
+        Paper: -1,
+        Scissors: 1,
+        Fountain: -1,
+        Matchstick: 1,
+    },
+
+    Fountain: {
+        Scissors: 1,
+        Paper: -1,
+        Rock: 1,
+        Fountain: 0,
+        Matchstick: -1,
+    },
+
+    Matchstick: {
+        Rock: -1,
+        Paper: 1,
+        Scissors: -1,
+        Fountain: 1,
+        Matchstick: 0,
+    },
+};
+
 function getGameEval(playerHand, systemHand) {
   return evalLookup[playerHand][systemHand];
 }
@@ -63,59 +115,32 @@ function generateComputerPick() {
     return HANDS[randomPick];
 }
 
-export function addToTable(result, userInput, computerInput) {
-    const template = `
-                <tr>
-                    <td>${result}</td>
-                    <td>${userInput}</td>
-                    <td>${computerInput}</td>
-                </tr>
-    `;
-    table.innerHTML += template;
+function updatePlayerStats(playerName, gameEval) {
+// eslint-disable-next-line @web-and-design/wed/use-action-map
+    if (playerStats[playerName] === undefined) {
+        playerStats[playerName] = {
+            user: `${playerName}`,
+            win: 0,
+            lost: 0,
+        };
+    }
+
+    if (gameEval > 0) {
+        playerStats[playerName].win += gameEval;
+    } else {
+        playerStats[playerName].lost -= gameEval;
+    }
 }
 
 export function evaluateHand(playerName, playerHand, gameRecordHandlerCallbackFn) {
   // TODO: Replace calculation of didWin and update rankings while doing so.
   // optional: in local-mode (isConnected == false) store rankings in the browser localStorage https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API
     const systemHand = generateComputerPick();
-    let gameEval = 0;
-    switch (playerHand + systemHand) {
-        case 'rockscissors':
-        case 'rockmatchstick':
-        case 'paperrock':
-        case 'paperfountain':
-        case 'scissorspaper':
-        case 'scissorsmatchstick':
-        case 'fountainrock':
-        case 'fountainscissors':
-        case 'matchstickpaper':
-        case 'matchstickfountain':
-            gameEval = 1;
-            break;
-        case 'rockpaper':
-        case 'rockfountain':
-        case 'paperscissors':
-        case 'papermatchstick':
-        case 'scissorsrock':
-        case 'scissorsfountain':
-        case 'fountainpaper':
-        case 'fountainmatchstick':
-        case 'matchstickrock':
-        case 'matchstickscissors':
-            gameEval = -1;
-            break;
-        case 'rockrock':
-        case 'paperpaper':
-        case 'scissorsscissors':
-        case 'fountainfountain':
-        case 'matchstickmatchstick':
-            gameEval = 0;
-            break;
-    }
+    const gameEval = getGameEval(playerHand, systemHand);
+    updatePlayerStats(playerName, gameEval);
     setTimeout(() => gameRecordHandlerCallbackFn({
         playerHand,
         systemHand,
         gameEval,
     }), DELAY_MS);
-    return gameEval;
 }
