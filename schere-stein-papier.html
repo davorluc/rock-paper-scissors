@@ -12,7 +12,7 @@
   </header>
   <section id="scoreboard">
       <h2>Rangliste</h2>
-      <table>
+      <table id="table-scoreboard">
         <thead>
           <tr>
             <th scope="col">Rank</th>
@@ -28,23 +28,20 @@
       <p>Start a game by giving your name</p>
       <form>
         <input id="user-input" placeholder="Name" required>
-        <button id="buttonEnter" type="button">Enter</button>
+        <button id="enter-button" type="button">Enter</button>
       </form>
     </section>
     <section id="game" class="hidden">
         <button id="back">Back</button>
         <p id="pick-your-hand"> </p>
-        <button id="rock">Rock</button>
-        <button id="paper">Paper</button>
-        <button id="scissors">Scissors</button>
-        <button id="fountain">Fountain</button>
-        <button id="matchstick">Matchstick</button>
+        <div id="hand-buttons"></div>
         <table id="currentgame">
           <tr>
             <th>Result</th>
             <th>User</th>
             <th>Computer</th>
           </tr>
+          <tbody id="current-game-body"></tbody>
         </table>
     </section>
 </body>
