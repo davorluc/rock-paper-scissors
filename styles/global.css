@@ -1,11 +1,15 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Trebuchet MS", sans-serif;
+}
+
 h1 {
     color: #850e35;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    font-family: "Trebuchet MS";
+table {
+    width: 55%;
 }
 
 #enter-button {
@@ -18,11 +22,11 @@ h1 {
 }
 
 .hand,
-#back{
+#back {
     background-color: #ee6983;
     border: 2px solid #111;
     border-radius: 8px;
-    border-sizing: border-box;
+    box-sizing: border-box;
     color: #16213e;
     cursor: pointer;
     font-size: 16px;
@@ -52,7 +56,7 @@ button::after {
     z-index: -1;
 }
 
-button:hover:after {
+button:hover::after {
     transform: translate(0, 0);
 }
 
@@ -89,10 +93,11 @@ form {
     margin-right: auto;
 }
 
-#currentgame th, td {
+#currentgame th,
+#currentgame td {
     border: 1px solid black;
     padding: 10px;
-    border-sizing: border-box;
+    box-sizing: border-box;
 }
 
 #currentgame th {
@@ -115,10 +120,11 @@ form {
     margin-right: auto;
 }
 
-#scoreboard th, td {
+#scoreboard th,
+#scoreboard td {
     border: 1px solid black;
     padding: 10px;
-    border-sizing: border-box;
+    box-sizing: border-box;
 }
 
 #scoreboard th {
@@ -155,8 +161,4 @@ h2 {
 
 input::placeholder {
     text-align: center;
-}
-
-table {
-  width: 55%;
 }
