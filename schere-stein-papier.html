@@ -10,39 +10,42 @@
   <header>
   <h1>Schere Stein Papier</h1>
   </header>
-  <section id="scoreboard">
-      <h2>Rangliste</h2>
-      <table id="table-scoreboard">
-        <thead>
-          <tr>
-            <th scope="col">Rank</th>
-            <th scope="col">Name</th>
-            <th scope="col">Wins</th>
-          </tr>
-        </thead>
-        <tbody id="scoreboard-body">
-        </tbody>
-      </table>
-    </section>
-    <section id="login">
-      <p>Start a game by giving your name</p>
-      <form>
-        <input id="user-input" placeholder="Name" required>
-        <button id="enter-button" type="button">Enter</button>
-      </form>
-    </section>
-    <section id="game" class="hidden">
-        <button id="back">Back</button>
-        <p id="pick-your-hand"> </p>
-        <div id="hand-buttons"></div>
-        <table id="currentgame">
-          <tr>
-            <th>Result</th>
-            <th>User</th>
-            <th>Computer</th>
-          </tr>
-          <tbody id="current-game-body"></tbody>
+  <div id="start-page">
+    <section id="scoreboard">
+        <h2>Rangliste</h2>
+        <table id="table-scoreboard">
+          <thead>
+            <tr>
+              <th scope="col">Rank</th>
+              <th scope="col">Name</th>
+              <th scope="col">Wins</th>
+            </tr>
+          </thead>
+          <tbody id="scoreboard-body">
+          </tbody>
         </table>
+      </section>
+      <section id="login">
+        <p>Start a game by giving your name</p>
+        <form>
+          <input id="user-input" placeholder="Name" required>
+          <button id="enter-button" type="button">Enter</button>
+        </form>
+      </section>
+  </div>
+    <section id="game" class="hidden">
+      <h2 id="countdown"></h2>
+      <button id="back">Back</button>
+      <p id="pick-your-hand"> </p>
+      <div id="hand-buttons"></div>
+      <table id="currentgame">
+        <tr>
+          <th>Result</th>
+          <th>User</th>
+          <th>Computer</th>
+        </tr>
+        <tbody id="current-game-body"></tbody>
+      </table>
     </section>
 </body>
 </html>
