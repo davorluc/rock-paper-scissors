@@ -1,4 +1,4 @@
-import {HANDS, isConnected, getRankings, evaluateHand} from './game-service.js';
+import {HANDS, getRankings, evaluateHand} from './game-service.js';
 // TODO: Create DOM references
 const logoutButton = document.getElementById('back');
 const loginButton = document.getElementById('enter-button');
@@ -12,12 +12,6 @@ const gamePage = document.getElementById('game');
 const countdownParagraph = document.getElementById('countdown');
 
 // TODO: How to keep track of App state?
-let isLoggedIn = false;
-const hands = null;
-let disableHands = false;
-let onStartPage = false;
-let onGamePage = false;
-let disableLogoutButton = false;
 let countdown = '';
 
 // TODO: Create View functions
@@ -38,7 +32,7 @@ function generateDrawText() {
 function disableButtons() {
     const hands = document.getElementsByClassName('hand');
     for (let i = 0; i < hands.length; i++) {
-        hands[i].disabled= true;
+        hands[i].disabled = true;
     }
     logoutButton.disabled = true;
 }
@@ -46,9 +40,24 @@ function disableButtons() {
 function enableButtons() {
     const hands = document.getElementsByClassName('hand');
     for (let i = 0; i < hands.length; i++) {
-        hands[i].disabled= false;
+        hands[i].disabled = false;
     }
     logoutButton.disabled = false;
+}
+
+function gameCountdown(seconds) {
+    disableButtons();
+    countdown = `Next game in ${seconds}`;
+    countdownParagraph.innerHTML = countdown;
+    setTimeout(() => {
+        if (seconds === 1) {
+            countdown = '';
+            countdownParagraph.innerHTML = '';
+            enableButtons();
+        } else {
+            gameCountdown(seconds - 1);
+        }
+    }, 1000);
 }
 
 function addToTable(result, userInput, computerInput) {
@@ -77,46 +86,27 @@ function updateRanking() {
     getRankings(createRanking);
 }
 
-function gameCountdown(seconds) {
-    let waiting = true;
-    disableButtons();
-    countdown = `Next game in ${seconds}`;
-    countdownParagraph.innerHTML = countdown;
-    setTimeout(() => {
-        if (seconds === 1) {
-            countdown = '';
-            countdownParagraph.innerHTML = '';
-            enableButtons();
-        } else {
-            gameCountdown(seconds - 1);
-        }
-    }, 1000);
-}
-
 function getUserHand(handName) {
     return HANDS.find((hand) => hand === handName);
 }
 
 function login() {
     const username = name.value;
-    isLoggedIn = true;
     if (username) {
-        document.querySelector('#game').classList.toggle('hidden');
-        document.querySelector('#start-page').classList.toggle('hidden');
+        gamePage.classList.toggle('hidden');
+        startPage.classList.toggle('hidden');
     }
 }
 
 function logout() {
-        isLoggedIn = false;
-        document.querySelector('#game').classList.toggle('hidden');
-        document.querySelector('#start-page').classList.toggle('hidden');
+    gamePage.classList.toggle('hidden');
+    startPage.classList.toggle('hidden');
 }
 
 // TODO: Register Event Handlers
 
 loginButton.addEventListener('click', () => {
     generateDrawText();
-    isLoggedIn = true;
 
     login();
 });
