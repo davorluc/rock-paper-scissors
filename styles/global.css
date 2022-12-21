@@ -22,7 +22,8 @@ table {
 }
 
 .hand,
-#back {
+#back,
+#server-switch {
     background-color: #ee6983;
     border: 2px solid #111;
     border-radius: 8px;
@@ -161,4 +162,8 @@ h2 {
 
 input::placeholder {
     text-align: center;
+}
+
+#server-switch {
+  margin-bottom: 17px;
 }
