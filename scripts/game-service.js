@@ -4,6 +4,7 @@
  */
 
 export const DELAY_MS = 1000;
+
 const playerStats = {
   Markus: {
     user: 'Markus',
@@ -29,25 +30,27 @@ function returnPlayerStatsAsArray() {
 }
 
 function sortRankings(players) {
-    let rank = 0;
+    let rank = 1;
     let userWins = -1;
-    players.forEach((player) => {
-        if (player[1].win !== userWins) {
-            rank++;
-            userWins = player[1].win;
-        }
+    const sortedPlayerStats = players.sort((a, b) => b[1].win - a[1].win);
+    sortedPlayerStats.forEach((player) => {
         player.rank = rank;
+        rank++;
     });
+    return sortedPlayerStats;
 }
 
-function getRankingsFromPlayerStats() {
-    const unsortedPlayerStats = returnPlayerStatsAsArray();
-    const sortedPlayerStats = unsortedPlayerStats.sort((a, b) => b[1].win - a[1].win);
-    sortRankings(unsortedPlayerStats);
-    return sortedPlayerStats.slice(0, 10);
+async function getRankingsFromPlayerStats() {
+    let unsortedPlayerStats = returnPlayerStatsAsArray();
+    if(isConnected()) {
+        unsortedPlayerStats = await fetch('https://stone.sifs0005.infs.ch/ranking', {
+            method: 'GET'
+        }).then((response) => response.json()).then((ranking) => Object.entries(ranking));
+    }
+    return sortRankings(unsortedPlayerStats);
 }
 
-export const HANDS = ['Rock', 'Paper', 'Scissors', 'Fountain', 'Matchstick'];
+export const HANDS = ['Schere', 'Stein', 'Papier', 'Brunnen', 'Streichholz'];
 
 let isConnectedState = false;
 
@@ -59,50 +62,50 @@ export function isConnected() {
   return isConnectedState;
 }
 
-export function getRankings(rankingsCallbackHandlerFn) {
-  const rankingsArray = getRankingsFromPlayerStats();
+export async function getRankings(rankingsCallbackHandlerFn) {
+  const rankingsArray = await getRankingsFromPlayerStats();
   setTimeout(() => rankingsCallbackHandlerFn(rankingsArray), DELAY_MS);
 }
 
 const evalLookup = {
-    Scissors: {
-        Scissors: 0,
-        Rock: -1,
-        Paper: 1,
-        Fountain: -1,
-        Matchstick: 1,
+    Schere: {
+        Schere: 0,
+        Stein: -1,
+        Papier: 1,
+        Brunnen: -1,
+        Streichholz: 1,
     },
 
-    Paper: {
-        Scissors: -1,
-        Rock: 1,
-        Paper: 0,
-        Fountain: 1,
-        Matchstick: -1,
+    Papier: {
+        Schere: -1,
+        Stein: 1,
+        Papier: 0,
+        Brunnen: 1,
+        Streichholz: -1,
     },
 
-    Rock: {
-        Rock: 0,
-        Paper: -1,
-        Scissors: 1,
-        Fountain: -1,
-        Matchstick: 1,
+    Stein: {
+        Stein: 0,
+        Papier: -1,
+        Schere: 1,
+        Brunnen: -1,
+        Streichholz: 1,
     },
 
-    Fountain: {
-        Scissors: 1,
-        Paper: -1,
-        Rock: 1,
-        Fountain: 0,
-        Matchstick: -1,
+    Brunnen: {
+        Schere: 1,
+        Papier: -1,
+        Stein: 1,
+        Brunnen: 0,
+        Streichholz: -1,
     },
 
-    Matchstick: {
-        Rock: -1,
-        Paper: 1,
-        Scissors: -1,
-        Fountain: 1,
-        Matchstick: 0,
+    Streichholz: {
+        Stein: -1,
+        Papier: 1,
+        Schere: -1,
+        Brunnen: 1,
+        Streichholz: 0,
     },
 };
 
@@ -132,15 +135,33 @@ function updatePlayerStats(playerName, gameEval) {
     }
 }
 
-export function evaluateHand(playerName, playerHand, gameRecordHandlerCallbackFn) {
+export async function evaluateHand(playerName, playerHand, gameRecordHandlerCallbackFn) {
   // TODO: Replace calculation of didWin and update rankings while doing so.
   // optional: in local-mode (isConnected == false) store rankings in the browser localStorage https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API
-    const systemHand = generateComputerPick();
-    const gameEval = getGameEval(playerHand, systemHand);
+    let systemHand = generateComputerPick();
+    let gameEval = getGameEval(playerHand, systemHand);
+
+    if (isConnected()) {
+        await fetch(`https://stone.sifs0005.infs.ch/play?playerName=${playerName}&playerHand=${playerHand}`, {
+            method: 'GET'}).then((response) => response.json()).then((game) => {
+                systemHand = game.choice;
+                if (game.win === undefined) {
+                  gameEval = 0;
+                } else {
+                  gameEval = game.win ? 1 : -1;
+                }
+            });
+        gameRecordHandlerCallbackFn({
+            playerHand,
+            systemHand,
+            gameEval,
+        });
+    } else {
     updatePlayerStats(playerName, gameEval);
     setTimeout(() => gameRecordHandlerCallbackFn({
         playerHand,
         systemHand,
         gameEval,
     }), DELAY_MS);
+    }
 }

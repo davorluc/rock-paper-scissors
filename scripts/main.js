@@ -1,4 +1,4 @@
-import {HANDS, getRankings, evaluateHand} from './game-service.js';
+import {HANDS, getRankings, evaluateHand, setConnected, isConnected} from './game-service.js';
 // TODO: Create DOM references
 const logoutButton = document.getElementById('back');
 const loginButton = document.getElementById('enter-button');
@@ -10,9 +10,12 @@ const handButtons = document.getElementById('hand-buttons');
 const startPage = document.getElementById('start-page');
 const gamePage = document.getElementById('game');
 const countdownParagraph = document.getElementById('countdown');
+const serverSwitch = document.getElementById('server-switch');
+const localSwitch = document.getElementById('local-switch');
 
 // TODO: How to keep track of App state?
 let countdown = '';
+const parser = new DOMParser();
 
 // TODO: Create View functions
 
@@ -72,16 +75,21 @@ function addToTable(result, userInput, computerInput) {
     gameCountdown(3);
 }
 
+function sanitizeString(input) {
+    const doc = parser.parseFromString(input, 'text/html');
+    return doc.body.textContent||'';
+}
+
 function createRanking(rankingEntries) {
     ranklist.innerHTML = rankingEntries.map((x) => (`<tr>
             <td>${x.rank}</td>
-            <td>${x[0]}</td>
+            <td>${sanitizeString(x[0])}</td>
             <td>${x[1].win}</td>
         </tr>`))
         .join('');
 }
 
-function updateRanking() {
+async function updateRanking() {
     ranklist.innerHTML = '';
     getRankings(createRanking);
 }
@@ -104,6 +112,22 @@ function logout() {
 }
 
 // TODO: Register Event Handlers
+
+serverSwitch.addEventListener('click', () => {
+    serverSwitch.classList.toggle('hidden');
+    localSwitch.classList.toggle('hidden');
+
+    setConnected(true);
+    updateRanking();
+})
+
+localSwitch.addEventListener('click', () => {
+    serverSwitch.classList.toggle('hidden');
+    localSwitch.classList.toggle('hidden');
+
+    setConnected(false);
+    updateRanking();
+})
 
 loginButton.addEventListener('click', () => {
     generateDrawText();
