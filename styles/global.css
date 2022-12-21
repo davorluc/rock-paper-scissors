@@ -10,6 +10,7 @@ h1 {
 
 table {
     width: 55%;
+    table-layout: fixed;
 }
 
 #enter-button {
@@ -23,7 +24,8 @@ table {
 
 .hand,
 #back,
-#server-switch {
+#server-switch,
+#local-switch {
     background-color: #ee6983;
     border: 2px solid #111;
     border-radius: 8px;
@@ -126,6 +128,7 @@ form {
     border: 1px solid black;
     padding: 10px;
     box-sizing: border-box;
+    overflow: hidden;
 }
 
 #scoreboard th {
@@ -164,6 +167,28 @@ input::placeholder {
     text-align: center;
 }
 
-#server-switch {
+#server-switch,
+#local-switch {
   margin-bottom: 17px;
+}
+
+.scrollbar {
+  overflow-y: scroll;
+  height: 500px;
+}
+
+#scoreboard-scroll::-webkit-scrollbar-track {
+	border-radius: 10px;
+  background-color: #ffc4c4;
+}
+
+#scoreboard-scroll::-webkit-scrollbar {
+	width: 12px;
+  background-color: #ffc4c4;
+}
+
+#scoreboard-scroll::-webkit-scrollbar-thumb {
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color: #ee6983;
 }
