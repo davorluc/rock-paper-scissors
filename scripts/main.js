@@ -19,11 +19,13 @@ const parser = new DOMParser();
 
 // TODO: Create View functions
 
+// function that creates our hand buttons
 function addButtons() {
     return HANDS.map((hand) => (`<button id="${hand}" class="hand" type="button">${hand}</button>`))
         .join('');
 }
 
+// function that generates the prompt for the user to make a choice
 function generateDrawText() {
     const inputName = name.value;
     const template = `
@@ -32,6 +34,7 @@ function generateDrawText() {
     prompt.innerHTML += template;
 }
 
+// function that disables the buttons
 function disableButtons() {
     const hands = document.getElementsByClassName('hand');
     for (let i = 0; i < hands.length; i++) {
@@ -39,7 +42,7 @@ function disableButtons() {
     }
     logoutButton.disabled = true;
 }
-
+// function that enables the buttons
 function enableButtons() {
     const hands = document.getElementsByClassName('hand');
     for (let i = 0; i < hands.length; i++) {
@@ -48,6 +51,7 @@ function enableButtons() {
     logoutButton.disabled = false;
 }
 
+// function that displays the countdown timer/cooldown timer between rounds
 function gameCountdown(seconds) {
     disableButtons();
     countdown = `Next game in ${seconds}`;
@@ -63,6 +67,7 @@ function gameCountdown(seconds) {
     }, 1000);
 }
 
+// function that adds an entry to the game history
 function addToTable(result, userInput, computerInput) {
     const template = `
                 <tr>
@@ -75,11 +80,13 @@ function addToTable(result, userInput, computerInput) {
     gameCountdown(3);
 }
 
+// function that is needed so no one can interrupt our game with javascript
 function sanitizeString(input) {
     const doc = parser.parseFromString(input, 'text/html');
-    return doc.body.textContent||'';
+    return doc.body.textContent || '';
 }
 
+// function that creates the ranklist in HTML
 function createRanking(rankingEntries) {
     ranklist.innerHTML = rankingEntries.map((x) => (`<tr>
             <td>${x.rank}</td>
@@ -89,15 +96,18 @@ function createRanking(rankingEntries) {
         .join('');
 }
 
+// function that deletes the ranklist and creates a new, up-to-date one
 async function updateRanking() {
     ranklist.innerHTML = '';
     getRankings(createRanking);
 }
 
+// function that determines the user's hand
 function getUserHand(handName) {
     return HANDS.find((hand) => hand === handName);
 }
 
+// function that changes the visibility of start page and game page
 function login() {
     const username = name.value;
     if (username) {
@@ -105,7 +115,7 @@ function login() {
         startPage.classList.toggle('hidden');
     }
 }
-
+// same with login function, but the other way around
 function logout() {
     gamePage.classList.toggle('hidden');
     startPage.classList.toggle('hidden');
@@ -118,8 +128,9 @@ serverSwitch.addEventListener('click', () => {
     localSwitch.classList.toggle('hidden');
 
     setConnected(true);
+    isConnected();
     updateRanking();
-})
+});
 
 localSwitch.addEventListener('click', () => {
     serverSwitch.classList.toggle('hidden');
@@ -127,7 +138,7 @@ localSwitch.addEventListener('click', () => {
 
     setConnected(false);
     updateRanking();
-})
+});
 
 loginButton.addEventListener('click', () => {
     generateDrawText();
